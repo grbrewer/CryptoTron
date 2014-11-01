@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
+using CryptoManager.OceanReference1;
+using System.Xml;
+
 namespace CryptoManager
 {
     /// <summary>
@@ -23,6 +26,14 @@ namespace CryptoManager
     {
         public MainWindow()
         {
+            OceanInterfaceClient oc = new OceanInterfaceClient();
+            string[] serialNumbers = oc.getSerialNumbers("kevin@encom.com");
+            string publicKeyText = oc.downloadPublicKey("kevin@encom.com", serialNumbers[0]);
+
+            string testPublicKey = CryptoEngine.GenerateKeyPair("c:\\KeyStore\\keytest.gef");
+
+            oc.publishPublicKey("lora@encom.com", testPublicKey);
+
             InitializeComponent();
         }
     }

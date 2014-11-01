@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://engine.ocean.example.com/" name="OceanImplService" targetNamespace="http://engine.ocean.example.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://192.168.0.7:8080/WS/Ocean?xsd=1" namespace="http://engine.ocean.example.com/" />
+    </xsd:schema>
+  </types>
+  <message name="getSerialNumbers">
+    <part name="parameters" element="tns:getSerialNumbers" />
+  </message>
+  <message name="getSerialNumbersResponse">
+    <part name="parameters" element="tns:getSerialNumbersResponse" />
+  </message>
+  <message name="downloadPublicKey">
+    <part name="parameters" element="tns:downloadPublicKey" />
+  </message>
+  <message name="downloadPublicKeyResponse">
+    <part name="parameters" element="tns:downloadPublicKeyResponse" />
+  </message>
+  <message name="NoSuchAlgorithmException">
+    <part name="fault" element="tns:NoSuchAlgorithmException" />
+  </message>
+  <message name="NoSuchProviderException">
+    <part name="fault" element="tns:NoSuchProviderException" />
+  </message>
+  <message name="InvalidKeySpecException">
+    <part name="fault" element="tns:InvalidKeySpecException" />
+  </message>
+  <message name="IOException">
+    <part name="fault" element="tns:IOException" />
+  </message>
+  <message name="publishPublicKey">
+    <part name="parameters" element="tns:publishPublicKey" />
+  </message>
+  <message name="publishPublicKeyResponse">
+    <part name="parameters" element="tns:publishPublicKeyResponse" />
+  </message>
+  <message name="Exception">
+    <part name="fault" element="tns:Exception" />
+  </message>
+  <portType name="OceanInterface">
+    <operation name="getSerialNumbers">
+      <input message="tns:getSerialNumbers" />
+      <output message="tns:getSerialNumbersResponse" />
+    </operation>
+    <operation name="downloadPublicKey">
+      <input message="tns:downloadPublicKey" />
+      <output message="tns:downloadPublicKeyResponse" />
+      <fault name="NoSuchAlgorithmException" message="tns:NoSuchAlgorithmException" />
+      <fault name="NoSuchProviderException" message="tns:NoSuchProviderException" />
+      <fault name="InvalidKeySpecException" message="tns:InvalidKeySpecException" />
+      <fault name="IOException" message="tns:IOException" />
+    </operation>
+    <operation name="publishPublicKey">
+      <input message="tns:publishPublicKey" />
+      <output message="tns:publishPublicKeyResponse" />
+      <fault name="Exception" message="tns:Exception" />
+    </operation>
+  </portType>
+  <binding name="OceanImplPortBinding" type="tns:OceanInterface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getSerialNumbers">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="downloadPublicKey">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="NoSuchAlgorithmException">
+        <soap:fault use="literal" name="NoSuchAlgorithmException" namespace="" />
+      </fault>
+      <fault name="NoSuchProviderException">
+        <soap:fault use="literal" name="NoSuchProviderException" namespace="" />
+      </fault>
+      <fault name="InvalidKeySpecException">
+        <soap:fault use="literal" name="InvalidKeySpecException" namespace="" />
+      </fault>
+      <fault name="IOException">
+        <soap:fault use="literal" name="IOException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="publishPublicKey">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="OceanImplService">
+    <port name="OceanImplPort" binding="tns:OceanImplPortBinding">
+      <soap:address location="http://192.168.0.7:8080/WS/Ocean" />
+    </port>
+  </service>
+</definitions>

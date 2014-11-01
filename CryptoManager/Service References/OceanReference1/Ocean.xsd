@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://engine.ocean.example.com/" targetNamespace="http://engine.ocean.example.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Exception" type="tns:Exception" />
+  <xs:element name="IOException" type="tns:IOException" />
+  <xs:element name="InvalidKeySpecException" type="tns:InvalidKeySpecException" />
+  <xs:element name="NoSuchAlgorithmException" type="tns:NoSuchAlgorithmException" />
+  <xs:element name="NoSuchProviderException" type="tns:NoSuchProviderException" />
+  <xs:element name="downloadPublicKey" type="tns:downloadPublicKey" />
+  <xs:element name="downloadPublicKeyResponse" type="tns:downloadPublicKeyResponse" />
+  <xs:element name="getSerialNumbers" type="tns:getSerialNumbers" />
+  <xs:element name="getSerialNumbersResponse" type="tns:getSerialNumbersResponse" />
+  <xs:element name="publishPublicKey" type="tns:publishPublicKey" />
+  <xs:element name="publishPublicKeyResponse" type="tns:publishPublicKeyResponse" />
+  <xs:complexType name="getSerialNumbers">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSerialNumbersResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="publishPublicKey">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="publishPublicKeyResponse">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="downloadPublicKey">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="downloadPublicKeyResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NoSuchAlgorithmException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NoSuchProviderException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InvalidKeySpecException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IOException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

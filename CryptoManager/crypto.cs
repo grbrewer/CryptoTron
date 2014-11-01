@@ -2,6 +2,15 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml;
+
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
+using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Pkcs;
+using Org.BouncyCastle.Asn1.Pkcs;
 
 namespace CryptoManager
 {
@@ -10,23 +19,105 @@ namespace CryptoManager
         public CryptoEngine()
         { }
 
+        public static AsymmetricKeyParameter readPrivateKey(string privateKeyFileName)
+        {
+            AsymmetricKeyParameter privateKey = new AsymmetricKeyParameter(true);
+
+            var fileStream = System.IO.File.OpenText(privateKeyFileName);
+            var pemReader = new PemReader(fileStream);
+            var privateKeyParameter = (AsymmetricKeyParameter)pemReader.ReadObject();
+            return privateKeyParameter;
+        }
+
+        public static string ConvertToPEM(AsymmetricKeyParameter pubKey)
+        {
+            TextWriter textWriter = new StringWriter();
+            PemWriter pemWriter = new PemWriter(textWriter);
+            pemWriter.WriteObject(pubKey);
+            pemWriter.Writer.Flush();
+
+            string publicKeyText = textWriter.ToString();
+
+            return publicKeyText;
+        }
+
         public static string GenerateKeyPair(string targetFile)
         {
-            RSACryptoServiceProvider algorithm = new RSACryptoServiceProvider();
+            RsaKeyPairGenerator r = new RsaKeyPairGenerator();
+            r.Init(new KeyGenerationParameters(new SecureRandom(), 1024));
+            AsymmetricCipherKeyPair keys = r.GenerateKeyPair();
 
-            //Save the private key
-            string completeKey = algorithm.ToXmlString(true);
-            byte[] keyBytes = Encoding.UTF8.GetBytes(completeKey);
+            AsymmetricKeyParameter private_key = keys.Private;
 
-            keyBytes = ProtectedData.Protect(keyBytes, null, DataProtectionScope.CurrentUser);
-            
-            using (FileStream fs = new FileStream(targetFile, FileMode.Create))
+            //Convert the private key to PEM text
+            string privateKeyText = ConvertToPEM(private_key);
+
+            //Save the PEM encoded string to file
+            using (FileStream fs = File.OpenWrite(targetFile))
             {
-                fs.Write(keyBytes, 0, keyBytes.Length);
+                Byte[] privateKeyData =
+                new UTF8Encoding(true).GetBytes(privateKeyText);
+
+                fs.Write(privateKeyData, 0, privateKeyData.Length);
             }
 
-            //return the public key
-            return algorithm.ToXmlString(false);
+            //Return the Public Key
+            AsymmetricKeyParameter public_key = keys.Public;
+
+            return ConvertToPEM(public_key);
         }
+
+        /// <summary>
+        /// Perform the encryption as the most basic level
+        /// </summary>
+        /// <param name="plainText">the text to encrypt</param>
+        /// <param name="publicKey">the public key to encrypt to</param>
+        /// <returns>the encrypted bytestream</returns>
+        public byte[] encrypt(string plainText, AsymmetricKeyParameter publicKey)
+        {
+            UTF8Encoding utf8enc = new UTF8Encoding();
+
+            // Converting the string message to byte array
+            byte[] inputBytes = utf8enc.GetBytes(plainText);
+
+            // Creating the RSA algorithm object
+            IAsymmetricBlockCipher cipher = new RsaEngine();
+
+            // Initializing the RSA object for Encryption with RSA public key. 
+            cipher.Init(true, publicKey);
+
+            //Encrypting the input bytes
+            byte[] cipheredBytes = cipher.ProcessBlock(inputBytes, 0, plainText.Length);
+
+            return cipheredBytes;
+        }
+
+        /// <summary>
+        /// Perform the decryption at the lowest level
+        /// </summary>
+        /// <param name="cypherText">the cipher text to decrypt</param>
+        /// <param name="privateKey">the private key to use</param>
+        /// <returns>the decrypted text</returns>
+        public string decrypt(string cypherText, AsymmetricKeyParameter privateKey)
+        {
+            UTF8Encoding utf8enc = new UTF8Encoding();
+
+            // Converting the string message to byte array
+            byte[] encryptedBytes = utf8enc.GetBytes(cypherText);
+
+            PemReader pemReader = new PemReader(new StringReader(cypherText));
+
+            // Create the RSA algorithm object
+            IAsymmetricBlockCipher cipher = new RsaEngine();
+
+            //Do the encryption and return the plaintext
+            cipher.Init(false, privateKey);
+
+            byte[] decipheredBytes = cipher.ProcessBlock(encryptedBytes, 0, encryptedBytes.Length);
+            string plainText = utf8enc.GetString(decipheredBytes);
+
+            return plainText;
+        }
+
     }
 }
