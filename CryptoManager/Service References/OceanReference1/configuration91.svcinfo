@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="7FLcG4XH17BKFTpQ/1QWadav+s4=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="GAeW5qIG6l/G51oprbVvX22joY8=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="OceanImplPortBinding">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="OceanImplPort" contract="OceanReference1.OceanInterface" bindingType="basicHttpBinding" address="http://192.168.0.7:8080/WS/Ocean" bindingConfiguration="OceanImplPortBinding">
+    <endpoint name="OceanImplPort" contract="OceanReference1.OceanInterface" bindingType="basicHttpBinding" address="http://192.168.0.4:8080/WS/Ocean" bindingConfiguration="OceanImplPortBinding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://192.168.0.7:8080/WS/Ocean</serializedValue>
+          <serializedValue>http://192.168.0.4:8080/WS/Ocean</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

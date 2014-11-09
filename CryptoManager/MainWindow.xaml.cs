@@ -32,7 +32,33 @@ namespace CryptoManager
 
             string testPublicKey = CryptoEngine.GenerateKeyPair("c:\\KeyStore\\keytest.gef");
 
-            oc.publishPublicKey("lora@encom.com", testPublicKey);
+            
+            CryptoDataClasses1DataContext cdb = new CryptoDataClasses1DataContext();
+
+            pubkey publicKey = new pubkey()
+            {
+                email = "kevin@encom.com",
+                publicKey = testPublicKey,
+                serialNumber = serialNumbers[0]
+            };
+
+  
+            cdb.pubkeys.InsertOnSubmit(publicKey);
+
+            try
+            {
+                cdb.SubmitChanges();
+            }
+
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            cdb.Dispose();
+            
+
+            //oc.publishPublicKey("lora@encom.com", testPublicKey);
 
             InitializeComponent();
         }

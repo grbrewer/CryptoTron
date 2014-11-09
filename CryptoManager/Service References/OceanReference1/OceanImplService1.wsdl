@@ -2,7 +2,7 @@
 <definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://engine.ocean.example.com/" name="OceanImplService" targetNamespace="http://engine.ocean.example.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
-      <xsd:import schemaLocation="http://192.168.0.7:8080/WS/Ocean?xsd=1" namespace="http://engine.ocean.example.com/" />
+      <xsd:import schemaLocation="http://192.168.0.4:8080/WS/Ocean?xsd=1" namespace="http://engine.ocean.example.com/" />
     </xsd:schema>
   </types>
   <message name="getSerialNumbers">
@@ -104,7 +104,7 @@
   </binding>
   <service name="OceanImplService">
     <port name="OceanImplPort" binding="tns:OceanImplPortBinding">
-      <soap:address location="http://192.168.0.7:8080/WS/Ocean" />
+      <soap:address location="http://192.168.0.4:8080/WS/Ocean" />
     </port>
   </service>
 </definitions>
