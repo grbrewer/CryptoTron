@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
+using System.Security.Permissions;
 using CryptoManager.OceanReference1;
 using System.Xml;
 
@@ -22,7 +23,8 @@ namespace CryptoManager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    [PrincipalPermission(SecurityAction.Demand)]
+    public partial class MainWindow : MetroWindow, IView
     {
         public MainWindow()
         {
@@ -62,5 +64,22 @@ namespace CryptoManager
 
             InitializeComponent();
         }
+
+        #region IView Members
+
+        public IViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as IViewModel;
+            }
+            set
+            {
+                DataContext = value;
+            }
+        }
+
+        #endregion
+
     }
 }

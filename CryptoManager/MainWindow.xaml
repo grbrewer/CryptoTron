@@ -2,7 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="CryptoManager" Height="346" Width="525">
+        Title="CryptoManager" Height="346" Width="525"
+ 
+        EnableDWMDropShadow="True"
+        ResizeMode="CanResizeWithGrip"
+
+        WindowTransitionsEnabled="False"
+        WindowStartupLocation="CenterScreen">
+    
     <Grid>
         <ListBox HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="236"/>
         <Button Content="Generate Key Pair" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="109"/>
