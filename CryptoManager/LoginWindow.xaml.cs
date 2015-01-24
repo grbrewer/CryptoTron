@@ -45,5 +45,13 @@ namespace CryptoManager
             set { DataContext = value; }
         }
         #endregion
+
+        private void registerNewUser_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationWindow newUserRegistration = new RegistrationWindow();
+            newUserRegistration.Show();
+        }
+
+        
     }
 }
