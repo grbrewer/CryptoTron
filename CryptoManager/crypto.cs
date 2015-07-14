@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
@@ -117,6 +118,56 @@ namespace CryptoManager
             string plainText = utf8enc.GetString(decipheredBytes);
 
             return plainText;
+        }
+
+        /// <summary>
+        /// Use DES to Encrypt a file
+        /// </summary>
+        /// <param name="path">file path</param>
+        /// <param name="sKey">DES key</param>
+        public void EncryptFile(string path, string sKey)
+        {
+            //Output filename should end in .cao
+            string target = "";
+
+            if (path.Contains(".cao") == false)
+                target = path + ".cao";
+            else
+                target = path;
+
+            //Set up input and output filestreams
+            FileStream fsInput = new FileStream(path, FileMode.Open, FileAccess.Read);
+            FileStream fsEncrypted = new FileStream(target, FileMode.Create, FileAccess.Write);
+            
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            ICryptoTransform rsaencrypt = DES.CreateEncryptor();
+
+            CryptoStream cryptostream = new CryptoStream(fsEncrypted,
+               rsaencrypt,
+               CryptoStreamMode.Write);
+
+            byte[] bytearrayinput = new byte[fsInput.Length];
+            fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
+            cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);
+            cryptostream.Close();
+            fsInput.Close();
+            fsEncrypted.Close();
+        }
+
+        /// <summary>
+        /// Encrypt, Compress and Archive a given directory
+        /// </summary>
+        /// <param name="path">The directory we wish to encrypt and compress</param>
+        public void EncryptDirectory(string path)
+        {
+            string target = path + ".cao";
+
+            string skey = "sadflkjwenafsndm"; 
+
+            ZipFile.CreateFromDirectory(path, target);
+            EncryptFile(target, skey);
         }
 
     }

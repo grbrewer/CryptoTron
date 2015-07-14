@@ -18,12 +18,21 @@ namespace CryptoManager
         public User AuthenticateUser(string username, string clearTextPassword)
         {
             CryptoDataClasses1DataContext cdb = new CryptoDataClasses1DataContext();
+           
+            //Check if the user name is in the DB
+            User userData = cdb.Users.FirstOrDefault(u => u.email.Equals(username));
 
-            User userData = cdb.Users.FirstOrDefault(u => u.email.Equals(username)
-                && u.hashedPassword.Equals(CalculateHash(clearTextPassword, u.email)));
             if (userData == null)
                 throw new UnauthorizedAccessException("Access denied. Please provide some valid credentials.");
 
+            //If it is, hash the password and compare with entry in DB
+            var salt = userData.email;
+            var hashedPassword = CalculateHash(clearTextPassword, salt);
+            
+            if (userData.hashedPassword.Equals(hashedPassword) == false)
+                throw new UnauthorizedAccessException("Access denied. Please provide some valid credentials.");
+
+            //If everything checks out, we have valid credentials
             return userData; 
         }
         

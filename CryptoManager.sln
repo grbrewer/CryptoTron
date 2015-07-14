@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoManager", "CryptoManager\CryptoManager.csproj", "{EC3881BA-4A36-4177-A47F-6EA56D963781}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoExtension", "CryptoExtension\CryptoExtension.csproj", "{A5D24634-CED9-4C48-9F2C-17C36F64E41B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoCore", "CryptoCore\CryptoCore.csproj", "{BAAE23D8-A0F9-4008-AD59-1D552229BF38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EC3881BA-4A36-4177-A47F-6EA56D963781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC3881BA-4A36-4177-A47F-6EA56D963781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC3881BA-4A36-4177-A47F-6EA56D963781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D24634-CED9-4C48-9F2C-17C36F64E41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D24634-CED9-4C48-9F2C-17C36F64E41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D24634-CED9-4C48-9F2C-17C36F64E41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D24634-CED9-4C48-9F2C-17C36F64E41B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAAE23D8-A0F9-4008-AD59-1D552229BF38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAE23D8-A0F9-4008-AD59-1D552229BF38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAE23D8-A0F9-4008-AD59-1D552229BF38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAE23D8-A0F9-4008-AD59-1D552229BF38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
