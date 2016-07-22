@@ -9,6 +9,8 @@
   <xs:element name="downloadPublicKeyResponse" type="tns:downloadPublicKeyResponse" />
   <xs:element name="getSerialNumbers" type="tns:getSerialNumbers" />
   <xs:element name="getSerialNumbersResponse" type="tns:getSerialNumbersResponse" />
+  <xs:element name="getUserNames" type="tns:getUserNames" />
+  <xs:element name="getUserNamesResponse" type="tns:getUserNamesResponse" />
   <xs:element name="publishPublicKey" type="tns:publishPublicKey" />
   <xs:element name="publishPublicKeyResponse" type="tns:publishPublicKeyResponse" />
   <xs:complexType name="getSerialNumbers">
@@ -21,6 +23,16 @@
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="getUserNames">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserNamesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="publishPublicKey">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string" />
@@ -28,7 +40,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="publishPublicKeyResponse">
-    <xs:sequence />
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Exception">
     <xs:sequence>

@@ -19,11 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.4:8080/WS/Ocean?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.5:8080/WS/Ocean?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Ocean1.xsd" MetadataType="Schema" ID="fa601b24-bfec-42b5-9545-a06fa0c25cd6" SourceId="1" SourceUrl="http://192.168.0.4:8080/WS/Ocean?xsd=1" />
-    <MetadataFile FileName="OceanImplService1.wsdl" MetadataType="Wsdl" ID="a10a93f6-b297-4ecd-a4d4-6034a3a2292b" SourceId="1" SourceUrl="http://192.168.0.4:8080/WS/Ocean?wsdl" />
+    <MetadataFile FileName="OceanImplService.wsdl" MetadataType="Wsdl" ID="0da5dbc5-2fa1-4de3-8b67-2817c917d77b" SourceId="1" SourceUrl="http://192.168.0.5:8080/WS/Ocean?wsdl" />
+    <MetadataFile FileName="Ocean.xsd" MetadataType="Schema" ID="2cb377ec-248d-46e5-b171-c6fedd1cac15" SourceId="1" SourceUrl="http://192.168.0.5:8080/WS/Ocean?xsd=1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

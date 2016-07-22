@@ -2,7 +2,7 @@
 <definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://engine.ocean.example.com/" name="OceanImplService" targetNamespace="http://engine.ocean.example.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
-      <xsd:import schemaLocation="http://192.168.0.4:8080/WS/Ocean?xsd=1" namespace="http://engine.ocean.example.com/" />
+      <xsd:import schemaLocation="http://192.168.0.5:8080/WS/Ocean?xsd=1" namespace="http://engine.ocean.example.com/" />
     </xsd:schema>
   </types>
   <message name="getSerialNumbers">
@@ -10,6 +10,12 @@
   </message>
   <message name="getSerialNumbersResponse">
     <part name="parameters" element="tns:getSerialNumbersResponse" />
+  </message>
+  <message name="getUserNames">
+    <part name="parameters" element="tns:getUserNames" />
+  </message>
+  <message name="getUserNamesResponse">
+    <part name="parameters" element="tns:getUserNamesResponse" />
   </message>
   <message name="downloadPublicKey">
     <part name="parameters" element="tns:downloadPublicKey" />
@@ -43,6 +49,10 @@
       <input message="tns:getSerialNumbers" />
       <output message="tns:getSerialNumbersResponse" />
     </operation>
+    <operation name="getUserNames">
+      <input message="tns:getUserNames" />
+      <output message="tns:getUserNamesResponse" />
+    </operation>
     <operation name="downloadPublicKey">
       <input message="tns:downloadPublicKey" />
       <output message="tns:downloadPublicKeyResponse" />
@@ -60,6 +70,15 @@
   <binding name="OceanImplPortBinding" type="tns:OceanInterface">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <operation name="getSerialNumbers">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getUserNames">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -104,7 +123,7 @@
   </binding>
   <service name="OceanImplService">
     <port name="OceanImplPort" binding="tns:OceanImplPortBinding">
-      <soap:address location="http://192.168.0.4:8080/WS/Ocean" />
+      <soap:address location="http://192.168.0.5:8080/WS/Ocean" />
     </port>
   </service>
 </definitions>

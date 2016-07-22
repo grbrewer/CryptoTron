@@ -139,9 +139,9 @@ namespace CryptoManager
                 Status = string.Empty;
                 IView view;
                 if (parameter == null)
-                    view = new MainWindow();
+                    view = new MainWindow(Username);
                 else
-                    view = new MainWindow();
+                    view = new MainWindow(Username);
 
                 view.Show();
             }

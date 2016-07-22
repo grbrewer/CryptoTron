@@ -2,31 +2,34 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="CryptoManager" Height="346" Width="525"
+        Title="CryptoManager" Height="410" Width="633"
  
         EnableDWMDropShadow="True"
         ResizeMode="CanResizeWithGrip"
-
+        Loaded="MetroWindow_Loaded"
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen">
-    
-    <Grid>
-        <ListBox HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="236"/>
-        <Button Content="Generate Key Pair" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="109"/>
-        <TreeView Name="tvMain"  HorizontalAlignment="Left" Height="181" Margin="251,10,0,0" VerticalAlignment="Top" Width="256">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Countries}">
-                    <StackPanel Orientation="Horizontal" Margin="4" Background="LightSeaGreen">
-                        <TextBlock Text="{Binding Path=Name}" Margin="2" >
-                        </TextBlock>
-                        <StackPanel.Effect>
-                            <DropShadowEffect BlurRadius="2" Color="LightGray" Opacity=".2" >
-                            </DropShadowEffect>
-                        </StackPanel.Effect>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+
+    <Grid Name="mainKeyArea">
+        <DataGrid Name="keyGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="User name" Binding="{Binding email}"/>
+                <DataGridTextColumn Header="Key ID" Binding="{Binding serialNumber}"/>
+                <DataGridCheckBoxColumn Header="Default Key"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="genKeyPair" Content="Generate Key Pair" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="109" Click="genKeyPair_Click"/>
+        <TextBox Name="pkData" Text="{Binding publicKey}" IsEnabled="False" HorizontalAlignment="Left" Height="181" Margin="341,10,0,0" VerticalAlignment="Top" Width="274">
+
+
+        </TextBox>
+        <DataGrid Name ="userRolesGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Height="95" Width="566">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="User name" Binding="{Binding username}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
+                <DataGridTextColumn Header="Role" Binding="{Binding role}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Controls:MetroWindow>

@@ -16,6 +16,7 @@ using MahApps.Metro.Controls;
 
 using System.Security.Permissions;
 using CryptoManager.OceanReference1;
+using CryptoCore;
 using System.Xml;
 
 namespace CryptoManager
@@ -26,42 +27,8 @@ namespace CryptoManager
     [PrincipalPermission(SecurityAction.Demand)]
     public partial class MainWindow : MetroWindow, IView
     {
-        public MainWindow()
+        public MainWindow(string userName)
         {
-            OceanInterfaceClient oc = new OceanInterfaceClient();
-            string[] serialNumbers = oc.getSerialNumbers("kevin@encom.com");
-            string publicKeyText = oc.downloadPublicKey("kevin@encom.com", serialNumbers[0]);
-
-            string testPublicKey = CryptoEngine.GenerateKeyPair("c:\\KeyStore\\keytest.gef");
-
-            
-            CryptoDataClasses1DataContext cdb = new CryptoDataClasses1DataContext();
-
-            pubkey publicKey = new pubkey()
-            {
-                email = "kevin@encom.com",
-                publicKey = testPublicKey,
-                serialNumber = serialNumbers[0]
-            };
-
-  
-            cdb.pubkeys.InsertOnSubmit(publicKey);
-
-            try
-            {
-                cdb.SubmitChanges();
-            }
-
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            cdb.Dispose();
-            
-
-            //oc.publishPublicKey("lora@encom.com", testPublicKey);
-
             InitializeComponent();
         }
 
@@ -80,6 +47,48 @@ namespace CryptoManager
         }
 
         #endregion
+
+        private void genKeyPair_Click(object sender, RoutedEventArgs e)
+        {
+            string pubKeyText = CryptoEngine.GenerateKeyPair("c:\\temp\\temp.gef");
+
+            //TODO: Replace lora@encom.com with current user email identity..
+            OceanInterfaceClient oc = new OceanInterfaceClient();
+            string newSerialNumber = oc.publishPublicKey("lora@encom.com", pubKeyText);
+
+            pubkey publicKey = new pubkey()
+            {
+                email = "lora@encom.com",
+                publicKey = pubKeyText,
+                serialNumber = newSerialNumber
+            };
+
+            CryptoDataClasses1DataContext cdb = new CryptoDataClasses1DataContext();
+
+            cdb.pubkeys.InsertOnSubmit(publicKey);
+
+            try
+            {
+                cdb.SubmitChanges();
+            }
+
+            catch (System.Exception error)
+            {
+                Console.WriteLine(error);
+            }
+
+            cdb.Dispose();
+
+        }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            CryptoDataClasses1DataContext cdb = new CryptoDataClasses1DataContext();
+            keyGrid.ItemsSource = cdb.pubkeys;
+            userRolesGrid.ItemsSource = cdb.Users;
+            mainKeyArea.DataContext = cdb.pubkeys;
+            
+        }
 
     }
 }
