@@ -52,6 +52,20 @@ namespace CryptoManager
             }
         }
 
+        public bool AdminUser
+        {
+            get
+            {
+                if (IsAuthenticated)
+                    if (Thread.CurrentPrincipal.IsInRole("Administrators"))
+                        return true;
+                    else
+                        return false;
+                else //If you are not authenticated, you cannot be admin!
+                    return false;
+            }
+        }
+
         public string Status
         {
             get { return _status; }
@@ -139,9 +153,9 @@ namespace CryptoManager
                 Status = string.Empty;
                 IView view;
                 if (parameter == null)
-                    view = new MainWindow(Username);
+                    view = new MainWindow(Username, AdminUser);
                 else
-                    view = new MainWindow(Username);
+                    view = new MainWindow(Username, AdminUser);
 
                 view.Show();
             }

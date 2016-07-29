@@ -7,14 +7,15 @@
         EnableDWMDropShadow="True"
         ResizeMode="CanResizeWithGrip"
         Loaded="MetroWindow_Loaded"
+        Unloaded="MetroWindow_Unloaded"
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen">
 
     <Grid Name="mainKeyArea">
         <DataGrid Name="keyGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User name" Binding="{Binding email}"/>
-                <DataGridTextColumn Header="Key ID" Binding="{Binding serialNumber}"/>
+                <DataGridTextColumn Header="User name" IsReadOnly="True" Binding="{Binding email}"/>
+                <DataGridTextColumn Header="Key ID" IsReadOnly="True" Binding="{Binding serialNumber}"/>
                 <DataGridCheckBoxColumn Header="Default Key"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -23,11 +24,14 @@
 
 
         </TextBox>
-        <DataGrid Name ="userRolesGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Height="95" Width="566">
+        <DataGrid Name ="userRolesGrid" CellEditEnding="userRolesGrid_CellEditEnding" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Height="95" Width="566">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User name" Binding="{Binding username}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding email}"/>
-                <DataGridTextColumn Header="Role" Binding="{Binding role}"/>
+                <DataGridTextColumn Header="User name" IsReadOnly="True" Binding="{Binding username}"/>
+                <DataGridTextColumn Header="Email" IsReadOnly="True" Binding="{Binding email}"/>
+                <DataGridComboBoxColumn x:Name="adminRole" Header="Role" 
+                                        SelectedValueBinding="{ Binding role,
+                                                               Mode=TwoWay, 
+                                                               UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 
