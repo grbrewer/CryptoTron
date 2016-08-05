@@ -12,11 +12,18 @@
         WindowStartupLocation="CenterScreen">
 
     <Grid Name="mainKeyArea">
-        <DataGrid Name="keyGrid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
+        <DataGrid Name="keyGrid" Loaded="keyGrid_Loaded" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="User name" IsReadOnly="True" Binding="{Binding email}"/>
                 <DataGridTextColumn Header="Key ID" IsReadOnly="True" Binding="{Binding serialNumber}"/>
                 <DataGridCheckBoxColumn Header="Default Key"/>
+                <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                            <Button Name="publishKey" Click="publishKey_Click" Visibility="Collapsed" >Publish</Button>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="genKeyPair" Content="Generate Key Pair" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="109" Click="genKeyPair_Click"/>

@@ -66,6 +66,14 @@ namespace CryptoManager
             }
         }
 
+        public string UserEmail
+        {
+            get
+            {
+                return Thread.CurrentPrincipal.Identity.Name;
+            }
+        }
+
         public string Status
         {
             get { return _status; }
@@ -153,9 +161,9 @@ namespace CryptoManager
                 Status = string.Empty;
                 IView view;
                 if (parameter == null)
-                    view = new MainWindow(Username, AdminUser);
+                    view = new MainWindow(UserEmail, AdminUser);
                 else
-                    view = new MainWindow(Username, AdminUser);
+                    view = new MainWindow(UserEmail, AdminUser);
 
                 view.Show();
             }
