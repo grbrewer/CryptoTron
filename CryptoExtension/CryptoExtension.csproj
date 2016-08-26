@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +30,25 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cryptokey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpShell">
-      <HintPath>..\packages\SharpShell.2.2.0.0\lib\net40\SharpShell.dll</HintPath>
+    <Reference Include="Apex.WinForms">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\Apex.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerManager">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\ServerManager.exe</HintPath>
+    </Reference>
+    <Reference Include="SharpShell, Version=2.2.0.0, Culture=neutral, PublicKeyToken=f14dc899472fe6fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\SharpShell.dll</HintPath>
+    </Reference>
+    <Reference Include="srm">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\srm.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cryptokey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

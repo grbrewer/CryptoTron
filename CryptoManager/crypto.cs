@@ -15,9 +15,9 @@ using Org.BouncyCastle.Asn1.Pkcs;
 
 namespace CryptoManager
 {
-    public class CryptoEngine
+    public class OldCryptoEngine
     {
-        public CryptoEngine()
+        public OldCryptoEngine()
         { }
 
         public static AsymmetricKeyParameter readPrivateKey(string privateKeyFileName)
@@ -42,7 +42,7 @@ namespace CryptoManager
             return publicKeyText;
         }
 
-        public static string GenerateKeyPair(string targetFile)
+        public static string GenerateKeyPair(string targetFile, string password)
         {
             RsaKeyPairGenerator r = new RsaKeyPairGenerator();
             r.Init(new KeyGenerationParameters(new SecureRandom(), 1024));
@@ -52,6 +52,8 @@ namespace CryptoManager
 
             //Convert the private key to PEM text
             string privateKeyText = ConvertToPEM(private_key);
+
+            //Perform AES encryption on private key text
 
             //Save the PEM encoded string to file
             using (FileStream fs = File.OpenWrite(targetFile))
@@ -127,11 +129,11 @@ namespace CryptoManager
         /// <param name="sKey">DES key</param>
         public void EncryptFile(string path, string sKey)
         {
-            //Output filename should end in .cao
+            //Output filename should end in .enc
             string target = "";
 
-            if (path.Contains(".cao") == false)
-                target = path + ".cao";
+            if (path.Contains(".enc") == false)
+                target = path + ".enc";
             else
                 target = path;
 
@@ -139,13 +141,13 @@ namespace CryptoManager
             FileStream fsInput = new FileStream(path, FileMode.Open, FileAccess.Read);
             FileStream fsEncrypted = new FileStream(target, FileMode.Create, FileAccess.Write);
             
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
-            ICryptoTransform rsaencrypt = DES.CreateEncryptor();
+            AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+            AES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            AES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            ICryptoTransform aesencrypt = AES.CreateEncryptor();
 
             CryptoStream cryptostream = new CryptoStream(fsEncrypted,
-               rsaencrypt,
+               aesencrypt,
                CryptoStreamMode.Write);
 
             byte[] bytearrayinput = new byte[fsInput.Length];
@@ -160,11 +162,9 @@ namespace CryptoManager
         /// Encrypt, Compress and Archive a given directory
         /// </summary>
         /// <param name="path">The directory we wish to encrypt and compress</param>
-        public void EncryptDirectory(string path)
+        public void EncryptDirectory(string path, string skey)
         {
-            string target = path + ".cao";
-
-            string skey = "sadflkjwenafsndm"; 
+            string target = path + ".enc";
 
             ZipFile.CreateFromDirectory(path, target);
             EncryptFile(target, skey);

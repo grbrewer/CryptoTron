@@ -43,7 +43,23 @@ namespace CryptoCore
             return publicKeyText;
         }
 
-        public static string GenerateKeyPair(string targetFile)
+        public static string GenerateRandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch ;
+            for(int i=0; i<size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65))) ;
+                builder.Append(ch); 
+            }
+            if(lowerCase)
+                return builder.ToString().ToLower();
+
+            return builder.ToString();
+        }
+
+        public static string GenerateKeyPair(string targetFile, bool secure, string password)
         {
             RsaKeyPairGenerator r = new RsaKeyPairGenerator();
             r.Init(new KeyGenerationParameters(new SecureRandom(), 1024));
@@ -53,6 +69,10 @@ namespace CryptoCore
 
             //Convert the private key to PEM text
             string privateKeyText = ConvertToPEM(private_key);
+
+            //Encrypt the contents using AES with password
+            if (secure == true)
+                EncryptFile(targetFile, password);
 
             //Save the PEM encoded string to file
             using (FileStream fs = File.OpenWrite(targetFile))
@@ -75,7 +95,7 @@ namespace CryptoCore
         /// <param name="plainText">the text to encrypt</param>
         /// <param name="publicKey">the public key to encrypt to</param>
         /// <returns>the encrypted bytestream</returns>
-        public byte[] encrypt(string plainText, AsymmetricKeyParameter publicKey)
+        public static string RsaEncrypt(string plainText, AsymmetricKeyParameter publicKey)
         {
             UTF8Encoding utf8enc = new UTF8Encoding();
 
@@ -90,8 +110,9 @@ namespace CryptoCore
 
             //Encrypting the input bytes
             byte[] cipheredBytes = cipher.ProcessBlock(inputBytes, 0, plainText.Length);
+            string cipherText = utf8enc.GetString(cipheredBytes);
 
-            return cipheredBytes;
+            return cipherText;
         }
 
         /// <summary>
@@ -100,7 +121,7 @@ namespace CryptoCore
         /// <param name="cypherText">the cipher text to decrypt</param>
         /// <param name="privateKey">the private key to use</param>
         /// <returns>the decrypted text</returns>
-        public string decrypt(string cypherText, AsymmetricKeyParameter privateKey)
+        public static string RsaDecrypt(string cypherText, AsymmetricKeyParameter privateKey)
         {
             UTF8Encoding utf8enc = new UTF8Encoding();
 
@@ -128,21 +149,22 @@ namespace CryptoCore
         /// <param name="sKey"></param>
         public static void EncryptFile(string path, string sKey)
         {
-            //Output filename should end in .cao
+            //Output filename should end in .enc
             string target = "";
 
-            if (path.Contains(".cao") == false)
-                target = path + ".cao";
+            if (path.Contains(".enc") == false && 
+                path.Contains(".cpk") == false)
+                target = path + ".enc";
             else
                 target = path;
 
             FileStream fsInput = new FileStream(path, FileMode.Open, FileAccess.Read);
             FileStream fsEncrypted = new FileStream(target, FileMode.Create, FileAccess.Write);
 
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
-            ICryptoTransform rsaencrypt = DES.CreateEncryptor();
+            AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+            AES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            AES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            ICryptoTransform rsaencrypt = AES.CreateEncryptor();
 
             CryptoStream cryptostream = new CryptoStream(fsEncrypted,
                rsaencrypt,
@@ -160,13 +182,12 @@ namespace CryptoCore
         /// Encrypt, Compress and Archive a given directory
         /// </summary>
         /// <param name="path">The directory we wish to encrypt and compress</param>
-        public static void EncryptDirectory(string path)
+        public static void EncryptDirectory(string path, string sKey)
         {
-            string target = path + ".cao";
-            string skey = "sadflkjwenafsndm";
+            string target = path + ".enc";
 
             ZipFile.CreateFromDirectory(path, target);
-            EncryptFile(target, skey);
+            EncryptFile(target, sKey);
         }
 
         //  Call this function to remove the key from memory after use for security.
@@ -182,5 +203,17 @@ namespace CryptoCore
             // Use the Automatically generated key for Encryption. 
             return ASCIIEncoding.ASCII.GetString(desCrypto.Key);
         }
+
+        public static string CalculateHash(string clearTextPassword, string salt)
+        {
+            // Convert the salted password to a byte array
+            byte[] saltedHashBytes = Encoding.UTF8.GetBytes(clearTextPassword + salt);
+            // Use the hash algorithm to calculate the hash
+            HashAlgorithm algorithm = new SHA256Managed();
+            byte[] hash = algorithm.ComputeHash(saltedHashBytes);
+            // Return the hash as a base64 encoded string to be compared to the stored password
+            return Convert.ToBase64String(hash);
+        }
+
     }
 }

@@ -76,7 +76,7 @@ namespace CryptoManager
             string keyID = "untitled_" + salt + ".cpk";
 
             // Generate a temporary name for the new key
-            string pubKeyText = CryptoEngine.GenerateKeyPair(filename);
+            string pubKeyText = CryptoEngine.GenerateKeyPair(filename, false, null);
 
             pubkey publicKey = new pubkey()
             {

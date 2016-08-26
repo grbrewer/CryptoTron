@@ -29,13 +29,33 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>cryptokey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apex.WinForms">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\Apex.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>..\..\..\..\bccrypto-net-1.7-bin\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="ServerManager">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\ServerManager.exe</HintPath>
+    </Reference>
+    <Reference Include="SharpShell">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\SharpShell.dll</HintPath>
+    </Reference>
+    <Reference Include="srm">
+      <HintPath>..\packages\SharpShellTools.2.2.0.0\lib\srm.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +65,10 @@
   <ItemGroup>
     <Compile Include="Crypto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cryptokey.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

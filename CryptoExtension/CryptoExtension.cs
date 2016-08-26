@@ -9,9 +9,13 @@ using System.IO;
 using SharpShell.SharpContextMenu;
 
 using CryptoCore;
+using System.Runtime.InteropServices;
+using SharpShell.Attributes;
 
 namespace CryptoExtension
 {
+    [ComVisible(true)]
+    [COMServerAssociation(AssociationType.ClassOfExtension,".txt")]
     public class CryptoExtension : SharpContextMenu
     {
 
@@ -49,13 +53,20 @@ namespace CryptoExtension
                 //Simply Encrypt if we are dealing with a file
                 if (File.Exists(filename))
                 {
-                    CryptoEngine.EncryptFile(filename, "adswerasd");
+                    //Create a random key and encrypt
+                    string skey = CryptoEngine.GenerateRandomString(20, true);
+                    CryptoEngine.EncryptFile(filename, skey);
+     
+                    //Encrypt the random key with current RSA public key
+                    //string ekey = CryptoEngine.RsaEncrypt(skey, myPubkey);
+
+                    //Save encrypted random key
                 }
 
                 //If this is a Directory, we want to compress as well..
                 else if (Directory.Exists(filename))
                 {
-                    CryptoEngine.EncryptDirectory(filename);
+                    CryptoEngine.EncryptDirectory(filename, "adswerasd");
                 }
 
                 else
