@@ -52,6 +52,9 @@ namespace CryptoManager
             newUserRegistration.Show();
         }
 
-        
+        private void signInBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
